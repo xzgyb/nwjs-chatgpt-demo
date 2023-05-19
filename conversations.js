@@ -14,7 +14,6 @@ class Conversations {
 
         localforage.getItem("conversations").then((value) => {
             this.#conversations = JSON.parse(value) || []
-            console.log(this.#conversations)
             this.#renderConversations()
         })
 
