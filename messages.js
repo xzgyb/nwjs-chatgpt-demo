@@ -31,35 +31,38 @@ class Messages {
         questionInput.addEventListener("keydown", (event) => {
             if (event.keyCode === 13) {
                 const question = questionInput.value
-                this.#renderUserMessage(this.#newId(), question, true)
+                
+                if (question.length > 0) {
+                    this.#renderUserMessage(this.#newId(), question, true)
 
-                const assistantId = this.#newId()
-                this.#renderAssistantMessage(assistantId, "", ASSISTANT_PENDING, true)
-                this.#saveMessages()
-
-                this.#setConversationTitle(question)
-
-                this.#openAIClient.chatCompletions(this.#makeChatMessages(),
-                    (content) => {
-                        const result = content.replace(/^\s+|\s+$/g, '')
-
-                        document.querySelector(`#message-${assistantId}`).innerHTML =
-                            this.#makeAssistantMessageHTML(assistantId, result, ASSISTANT_COMPLETED)
-
-                        this.#setAssistantMessageById(assistantId, result, ASSISTANT_COMPLETED)
-                    },
-                    (error) => {
-                        document.querySelector(`#message-${assistantId}`).innerHTML =
-                            this.#makeAssistantMessageHTML(assistantId, "", ASSISTANT_FAILED)
-
-                        this.#setAssistantMessageById(assistantId, "", ASSISTANT_FAILED)
-
-                        alert(`回答出错: ${error}`)
-                    }
-                )
-
-                questionInput.value = ""
-                questionInput.focus()
+                    const assistantId = this.#newId()
+                    this.#renderAssistantMessage(assistantId, "", ASSISTANT_PENDING, true)
+                    this.#saveMessages()
+    
+                    this.#setConversationTitle(question)
+    
+                    this.#openAIClient.chatCompletions(this.#makeChatMessages(),
+                        (content) => {
+                            const result = content.replace(/^\s+|\s+$/g, '')
+    
+                            document.querySelector(`#message-${assistantId}`).innerHTML =
+                                this.#makeAssistantMessageHTML(assistantId, result, ASSISTANT_COMPLETED)
+    
+                            this.#setAssistantMessageById(assistantId, result, ASSISTANT_COMPLETED)
+                        },
+                        (error) => {
+                            document.querySelector(`#message-${assistantId}`).innerHTML =
+                                this.#makeAssistantMessageHTML(assistantId, "", ASSISTANT_FAILED)
+    
+                            this.#setAssistantMessageById(assistantId, "", ASSISTANT_FAILED)
+    
+                            alert(`回答出错: ${error}`)
+                        }
+                    )
+    
+                    questionInput.value = ""
+                    questionInput.focus()
+                }
             }
         })
     }
