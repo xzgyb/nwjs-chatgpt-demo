@@ -69,7 +69,7 @@ class Messages {
             this.#conversationId = event.detail.conversationId
             this.#conversationWindow = event.detail.conversationWindow
 
-            localforage.getItem(this.conversationStoreName).then((value) => {
+            localforage.getItem(this.messagesStoreName).then((value) => {
                 this.#messages = JSON.parse(value) || []
                 this.#renderMessages()
             })
@@ -87,7 +87,7 @@ class Messages {
     }
 
     #saveMessages() {
-        localforage.setItem(this.conversationStoreName, JSON.stringify(this.#messages))
+        localforage.setItem(this.messagesStoreName, JSON.stringify(this.#messages))
     }
 
     #setAssistantMessageById(id, content, status) {
@@ -115,7 +115,7 @@ class Messages {
         return result
     }
 
-    get conversationStoreName() {
+    get messagesStoreName() {
         return `conversation:${this.#conversationId}:messages`
     }
 
