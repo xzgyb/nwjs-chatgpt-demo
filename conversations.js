@@ -7,6 +7,7 @@ class Conversations {
 
     constructor() {
         this.#initializeConversations()
+        nw.Window.get().setPosition("center")
     }
 
     #initializeConversations() {
